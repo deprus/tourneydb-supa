@@ -9,7 +9,7 @@ interface NavProps {
 export default function Nav({ isClosed, setIsClosed }: NavProps) {
   return (
     <div
-      className={`items-center justify-between w-full lg:flex lg:w-auto lg:order-1 ${
+      className={`items-center absolute left-0 top-[50px] lg:static justify-between w-full lg:flex lg:w-auto lg:order-1 ${
         isClosed && 'hidden'
       }`}
       id="navbar-sticky"

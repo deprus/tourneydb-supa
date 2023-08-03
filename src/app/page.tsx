@@ -1,5 +1,5 @@
 import Link from 'next/link';
 
 export default function Home() {
-  return <Link href="/tournaments">Tournaments</Link>;
+  return <h1>Home</h1>;
 }
