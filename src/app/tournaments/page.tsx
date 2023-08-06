@@ -3,7 +3,8 @@
 import axios from 'axios';
 import { columns } from './columns';
 import { DataTable } from './data-table';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import SheetAddTourney from '@/components/SheetAddTourney';
 
 export default function DemoPage() {
   const { data, isLoading: isGetting } = useQuery({
@@ -18,6 +19,7 @@ export default function DemoPage() {
 
   return (
     <div className="container mx-auto py-10">
+      <SheetAddTourney />
       <DataTable columns={columns} data={data.data} />
     </div>
   );

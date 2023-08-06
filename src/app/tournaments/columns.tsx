@@ -22,11 +22,11 @@ export const columns: ColumnDef<Tournament>[] = [
     header: 'Серия',
   },
   {
-    accessorKey: 'name',
+    accessorKey: 'tournament',
     header: 'Турнир',
   },
   {
-    accessorKey: 'num_players',
+    accessorKey: 'numPlayers',
     header: 'Участников',
   },
   {
@@ -34,11 +34,11 @@ export const columns: ColumnDef<Tournament>[] = [
     header: 'Статус',
   },
   {
-    accessorKey: 'finish_date',
+    accessorKey: 'ended',
     header: 'Финиш',
   },
   {
-    accessorKey: 'winner',
+    accessorKey: 'champion',
     header: 'Чемпион',
   },
   {
@@ -46,7 +46,7 @@ export const columns: ColumnDef<Tournament>[] = [
     header: 'Ник на героях',
   },
   {
-    accessorKey: 'winner_wins',
+    accessorKey: 'totalWins',
     header: 'Счетчик',
   },
 ];
