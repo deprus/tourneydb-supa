@@ -29,9 +29,21 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import supabase from '@/utils/supabase';
+import { useToast } from './ui/use-toast';
+import { ToastAction } from '@radix-ui/react-toast';
+import { da } from 'date-fns/locale';
 
-interface AddTourneyButtonProps {
-  mutateFn: (values: {}) => void;
+interface Tournament {
+  tournament: string;
+  series: string;
+  numPlayers: number;
+  status: string;
+  ended: Date;
+  champion: string;
+  nickname: string;
+  totalWins: number;
 }
 
 const FormSchema = z.object({
@@ -47,7 +59,44 @@ const FormSchema = z.object({
     .min(1, 'Введите количество выигранных победителем турниров'),
 });
 
-export default function AddTourneyButton({ mutateFn }: AddTourneyButtonProps) {
+export default function AddTourneyButton() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const mutation = useMutation({
+    mutationFn: (values: Tournament): any => {
+      const data = supabase.from('Tournaments').insert([
+        {
+          tournament: values.tournament,
+          series: values.series,
+          numPlayers: values.numPlayers,
+          status: values.status,
+          ended: values.ended,
+          champion: values.champion,
+          nickname: values.nickname,
+          totalWins: values.totalWins,
+        },
+      ]);
+      console.log(data);
+      return data;
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Турнир добавлен',
+        description: `${new Date().toLocaleString()}`,
+      });
+      queryClient.invalidateQueries({ queryKey: ['tournaments'] });
+    },
+    onError: () => {
+      toast({
+        variant: 'destructive',
+        title: 'Не удалось добавить турнир.',
+        action: (
+          <ToastAction altText="Try again">Попробуйте еще раз</ToastAction>
+        ),
+      });
+    },
+  });
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -63,7 +112,7 @@ export default function AddTourneyButton({ mutateFn }: AddTourneyButtonProps) {
   });
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-    mutateFn(values);
+    mutation.mutate(values);
   }
 
   return (

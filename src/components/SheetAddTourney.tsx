@@ -18,41 +18,56 @@ interface Tournament {
   totalWins: number;
 }
 
+const addRow = async (values: Tournament) => {
+  return await supabase.from('Tournaments').insert([
+    {
+      tournament: values.tournament,
+      series: values.series,
+      numPlayers: values.numPlayers,
+      status: values.status,
+      ended: values.ended,
+      champion: values.champion,
+      nickname: values.nickname,
+      totalWins: values.totalWins,
+    },
+  ]);
+};
+
 export default function SheetAddTourney() {
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
-  const mutation = useMutation({
-    mutationFn: (values: Tournament) => {
-      return supabase.from('Tournaments').insert([
-        {
-          tournament: values.tournament,
-          series: values.series,
-          numPlayers: values.numPlayers,
-          status: values.status,
-          ended: values.ended,
-          champion: values.champion,
-          nickname: values.nickname,
-          totalWins: values.totalWins,
-        },
-      ]);
-    },
-    onSuccess: () => {
-      toast({
-        title: 'Турнир добавлен',
-        description: `${new Date().toLocaleString()}`,
-      });
-      queryClient.invalidateQueries({ queryKey: ['tournaments'] });
-    },
-    onError: () => {
-      toast({
-        variant: 'destructive',
-        title: 'Не удалось добавить турнир.',
-        action: (
-          <ToastAction altText="Try again">Попробуйте еще раз</ToastAction>
-        ),
-      });
-    },
-  });
+  // const queryClient = useQueryClient();
+  // const { toast } = useToast();
+  // const mutation = useMutation({
+  //   mutationFn: (values: Tournament) => {
+  //     return supabase.from('Tournaments').insert([
+  //       {
+  //         tournament: values.tournament,
+  //         series: values.series,
+  //         numPlayers: values.numPlayers,
+  //         status: values.status,
+  //         ended: values.ended,
+  //         champion: values.champion,
+  //         nickname: values.nickname,
+  //         totalWins: values.totalWins,
+  //       },
+  //     ]);
+  //   },
+  //   onSuccess: () => {
+  //     toast({
+  //       title: 'Турнир добавлен',
+  //       description: `${new Date().toLocaleString()}`,
+  //     });
+  //     queryClient.invalidateQueries({ queryKey: ['tournaments'] });
+  //   },
+  //   onError: () => {
+  //     toast({
+  //       variant: 'destructive',
+  //       title: 'Не удалось добавить турнир.',
+  //       action: (
+  //         <ToastAction altText="Try again">Попробуйте еще раз</ToastAction>
+  //       ),
+  //     });
+  //   },
+  // });
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -61,7 +76,7 @@ export default function SheetAddTourney() {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <AddTourneyButton mutateFn={mutation.mutate} />
+        <AddTourneyButton />
       </DialogContent>
     </Dialog>
   );
