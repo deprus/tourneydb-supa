@@ -10,7 +10,7 @@ export default function DemoPage() {
   const { data, isLoading: isGetting } = useQuery({
     queryKey: ['tournaments'],
     queryFn: async () => {
-      const { data } = await axios.get('http://localhost:3000/api/tournaments');
+      const { data } = await axios.get('/api/tournaments');
       return data;
     },
   });
