@@ -10,8 +10,8 @@ export default function DemoPage() {
   const { data, isLoading: isGetting } = useQuery({
     queryKey: ['tournaments'],
     queryFn: async () => {
-      const { data } = await axios.get('/api/tournaments');
-      return data;
+      const res = await fetch('/api/tournaments', { cache: 'no-store' });
+      return res.json();
     },
   });
 
