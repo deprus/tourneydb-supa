@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 
 import AddTourneyButton from './AddTourneyButton';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import supabase from '@/utils/supabase';
+import { supabase } from '@/utils/supabase';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
