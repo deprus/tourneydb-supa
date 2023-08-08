@@ -5,7 +5,7 @@ import { columns } from './columns';
 import { DataTable } from './data-table';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import SheetAddTourney from '@/components/SheetAddTourney';
-import supabase from '@/utils/supabase';
+import { supabase } from '@/utils/supabase';
 
 export default function DemoPage() {
   const { data, isLoading: isGetting } = useQuery({
