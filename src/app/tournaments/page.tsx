@@ -28,6 +28,7 @@ export default function DemoPage() {
 
   return (
     <div className="container mx-auto py-10">
+      <h1>Tournaments table</h1>
       <SheetAddTourney />
       <DataTable columns={columns} data={dataArray} />
     </div>
