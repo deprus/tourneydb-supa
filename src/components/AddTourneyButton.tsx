@@ -30,7 +30,7 @@ import {
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import supabase from '@/utils/supabase';
+import { supabase } from '@/utils/supabase';
 import { useToast } from './ui/use-toast';
 import { ToastAction } from '@radix-ui/react-toast';
 import { da } from 'date-fns/locale';
