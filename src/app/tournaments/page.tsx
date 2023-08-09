@@ -1,10 +1,12 @@
 'use client';
 
+import axios from 'axios';
 import { columns } from './columns';
 import { DataTable } from './data-table';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import SheetAddTourney from '@/components/SheetAddTourney';
 import { supabase } from '@/utils/supabase';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function DemoPage() {
   const { data, isLoading: isGetting } = useQuery({
@@ -21,7 +23,18 @@ export default function DemoPage() {
     },
   });
 
-  if (isGetting) return <h1>Loading...</h1>;
+  if (isGetting)
+    return (
+      <div className=" flex items-center justify-center mt-20">
+        <div className="flex items-center space-x-4">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[200px]" />
+          </div>
+        </div>
+      </div>
+    );
 
   const dataArray = data || [];
 
