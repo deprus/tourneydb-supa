@@ -29,11 +29,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { supabase } from '@/utils/supabase';
 import { useToast } from './ui/use-toast';
 import { ToastAction } from '@radix-ui/react-toast';
-import { da } from 'date-fns/locale';
+import { queryClient } from './Providers';
 
 interface Tournament {
   tournament: string;
@@ -60,7 +60,6 @@ const FormSchema = z.object({
 });
 
 export default function AddTourneyButton() {
-  const queryClient = useQueryClient();
   const { toast } = useToast();
   const mutation = useMutation({
     mutationFn: (values: Tournament): any => {

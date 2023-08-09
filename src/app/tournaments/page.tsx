@@ -1,9 +1,8 @@
 'use client';
 
-import axios from 'axios';
 import { columns } from './columns';
 import { DataTable } from './data-table';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import SheetAddTourney from '@/components/SheetAddTourney';
 import { supabase } from '@/utils/supabase';
 
@@ -28,7 +27,6 @@ export default function DemoPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <h1>Tournaments table</h1>
       <SheetAddTourney />
       <DataTable columns={columns} data={dataArray} />
     </div>

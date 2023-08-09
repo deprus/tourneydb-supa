@@ -2,7 +2,7 @@
 
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 function Providers({ children }: React.PropsWithChildren) {
   return (
