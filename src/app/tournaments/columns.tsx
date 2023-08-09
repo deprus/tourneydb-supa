@@ -64,8 +64,9 @@ export const columns: ColumnDef<Tournament>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const mutation = useMutation({
-        mutationFn: async (id): Promise<any> => {
+        mutationFn: async (id: string): Promise<any> => {
           const { error } = await supabase
             .from('Tournaments')
             .delete()
