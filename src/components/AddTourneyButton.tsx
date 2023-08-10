@@ -29,11 +29,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { supabase } from '@/utils/supabase';
 import { useToast } from './ui/use-toast';
 import { ToastAction } from '@radix-ui/react-toast';
 import { queryClient } from './Providers';
+import { pl } from 'date-fns/locale';
 
 interface Tournament {
   tournament: string;
@@ -113,6 +114,21 @@ export default function AddTourneyButton() {
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     mutation.mutate(values);
   }
+
+  const { data, isLoading: isGetting } = useQuery({
+    queryKey: ['players'],
+    queryFn: async () => {
+      let { data: Players, error } = await supabase.from('Players').select('*');
+      console.log(Players);
+
+      if (error) {
+        console.error(error);
+        throw new Error('Tournaments could not be loaded');
+      }
+
+      return Players;
+    },
+  });
 
   return (
     <>
@@ -238,9 +254,23 @@ export default function AddTourneyButton() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Чемпион</FormLabel>
-                <FormControl>
-                  <Input placeholder="Иван Иванов" {...field} />
-                </FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Выберите чемпиона" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {data?.map((player) => (
+                      <SelectItem key={player.name} value={player.name}>
+                        {player.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
