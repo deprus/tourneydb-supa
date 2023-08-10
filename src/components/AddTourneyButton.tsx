@@ -102,7 +102,7 @@ export default function AddTourneyButton() {
       series: '',
       tournament: '',
       numPlayers: 0,
-      status: 'объявлен',
+      status: 'закончен',
       ended: new Date(),
       champion: '',
       nickname: '',
@@ -184,10 +184,10 @@ export default function AddTourneyButton() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
+                    <SelectItem value="закончен">закончен</SelectItem>
                     <SelectItem value="объявлен">объявлен</SelectItem>
                     <SelectItem value="идет">идет</SelectItem>
                     <SelectItem value="регистрация">регистрация</SelectItem>
-                    <SelectItem value="закончен">закончен</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />

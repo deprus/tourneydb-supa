@@ -1,14 +1,13 @@
 'use client';
 
-import axios from 'axios';
-import { columns } from './columns';
+import { columnsTournaments } from './columnsTournaments';
 import { DataTable } from './data-table';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import SheetAddTourney from '@/components/SheetAddTourney';
 import { supabase } from '@/utils/supabase';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export default function DemoPage() {
+export default function TournamentsPage() {
   const { data, isLoading: isGetting } = useQuery({
     queryKey: ['tournaments'],
     queryFn: async () => {
@@ -25,7 +24,7 @@ export default function DemoPage() {
 
   if (isGetting)
     return (
-      <div className=" flex items-center justify-center mt-20">
+      <div className="flex items-center justify-center mt-20">
         <div className="flex items-center space-x-4">
           <Skeleton className="h-12 w-12 rounded-full" />
           <div className="space-y-2">
@@ -41,7 +40,7 @@ export default function DemoPage() {
   return (
     <div className="container mx-auto py-10">
       <SheetAddTourney />
-      <DataTable columns={columns} data={dataArray} />
+      <DataTable columns={columnsTournaments} data={dataArray} />
     </div>
   );
 }

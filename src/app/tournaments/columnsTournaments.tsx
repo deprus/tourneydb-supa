@@ -11,7 +11,7 @@ import {
 import { ToastAction } from '@/components/ui/toast';
 import { toast } from '@/components/ui/use-toast';
 import { supabase } from '@/utils/supabase';
-import { QueryClient, useMutation } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 
@@ -27,7 +27,7 @@ export type Tournament = {
   totalWins: number;
 };
 
-export const columns: ColumnDef<Tournament>[] = [
+export const columnsTournaments: ColumnDef<Tournament>[] = [
   {
     accessorKey: 'series',
     header: 'Серия',
