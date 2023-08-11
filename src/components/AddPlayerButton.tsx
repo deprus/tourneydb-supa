@@ -384,7 +384,7 @@ export default function AddPlayerButton() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="col-span-2 w-40 mx-auto">
+          <Button type="submit" className="col-span-5 w-40 mx-auto">
             Submit
           </Button>
         </form>
