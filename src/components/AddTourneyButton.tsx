@@ -34,7 +34,6 @@ import { supabase } from '@/utils/supabase';
 import { useToast } from './ui/use-toast';
 import { ToastAction } from '@radix-ui/react-toast';
 import { queryClient } from './Providers';
-import { pl } from 'date-fns/locale';
 
 interface Tournament {
   tournament: string;

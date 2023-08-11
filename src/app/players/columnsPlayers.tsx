@@ -2,9 +2,8 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
-export type Player = {
-  id: string;
-  place: number;
+export interface Player {
+  place: string;
   name: string;
   nickname: string;
   rating: number;
@@ -17,7 +16,7 @@ export type Player = {
   wins: number;
   winsPerc: number;
   lastT: string;
-};
+}
 
 export const columnsPlayers: ColumnDef<Player>[] = [
   {

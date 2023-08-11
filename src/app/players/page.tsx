@@ -5,6 +5,8 @@ import { DataTable } from './data-table';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/utils/supabase';
 import { Skeleton } from '@/components/ui/skeleton';
+import AddPlayerButton from '@/components/AddPlayerButton';
+import SheetAddPlayer from '@/components/SheetAddPlayer';
 
 export default function PlayersPage() {
   const { data, isLoading: isGetting } = useQuery({
@@ -39,6 +41,7 @@ export default function PlayersPage() {
 
   return (
     <div className="container mx-auto py-10">
+      <SheetAddPlayer />
       <DataTable columns={columnsPlayers} data={dataArray} />
     </div>
   );
