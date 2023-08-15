@@ -26,7 +26,7 @@ export function DataTable<TData extends Player, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const sorted = data.sort((a, b) => b.rating - a.rating);
+  data.sort((a, b) => b.rating - a.rating);
 
   const table = useReactTable({
     data,
