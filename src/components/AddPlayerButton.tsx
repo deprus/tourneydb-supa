@@ -22,19 +22,17 @@ import { queryClient } from './Providers';
 import { Player } from '@/app/players/columnsPlayers';
 
 const FormSchema = z.object({
-  place: z.string().min(1, 'Введите место'),
   name: z.string().min(1, 'Введите имя, фамилию'),
   nickname: z.string().min(1, 'Введите ник'),
-  rating: z.number().min(1, 'Введите рейтинг'),
   image: z.string().min(1, 'Введите ссылку на фото'),
-  tourneys: z.number().min(1, 'Введите количество турниров'),
-  gold: z.number().min(1, 'Введите количество золотых медалей'),
-  silver: z.number().min(1, 'Введите количество серебряных медалей'),
-  bronze: z.number().min(1, 'Введите количество бронзовых медалей'),
-  matches: z.number().min(1, 'Введите количество матчей'),
-  wins: z.number().min(1, 'Введите количество побед'),
-  winsPerc: z.number().min(1, 'Введите процент побед'),
-  lastT: z.string().min(1, 'Введите последний турнир'),
+  rating: z.number(),
+  tourneys: z.number(),
+  gold: z.number(),
+  silver: z.number(),
+  bronze: z.number(),
+  matches: z.number(),
+  wins: z.number(),
+  winsPerc: z.number(),
 });
 
 export default function AddPlayerButton() {
@@ -43,7 +41,6 @@ export default function AddPlayerButton() {
     mutationFn: (values: Player): any => {
       const data = supabase.from('Players').insert([
         {
-          place: values.place,
           name: values.name,
           nickname: values.nickname,
           rating: values.rating,
@@ -55,10 +52,8 @@ export default function AddPlayerButton() {
           matches: values.matches,
           wins: values.wins,
           winsPerc: values.winsPerc,
-          lastT: values.lastT,
         },
       ]);
-      console.log(data);
       return data;
     },
     onSuccess: () => {
@@ -82,11 +77,11 @@ export default function AddPlayerButton() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      place: '',
       name: '',
       nickname: '',
-      rating: 0,
-      image: '',
+      rating: 1500,
+      image:
+        'https://upload.wikimedia.org/wikipedia/commons/e/e4/Elliot_Grieveson.png',
       tourneys: 0,
       gold: 0,
       silver: 0,
@@ -94,7 +89,6 @@ export default function AddPlayerButton() {
       matches: 0,
       wins: 0,
       winsPerc: 0,
-      lastT: '',
     },
   });
 
@@ -109,19 +103,6 @@ export default function AddPlayerButton() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid grid-cols-5 gap-3"
         >
-          <FormField
-            control={form.control}
-            name="place"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Место</FormLabel>
-                <FormControl>
-                  <Input placeholder="1" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="name"
@@ -150,235 +131,12 @@ export default function AddPlayerButton() {
           />
           <FormField
             control={form.control}
-            name="rating"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Рейтинг</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="1600"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(
-                        isNaN(+e.target.value) ? '' : +e.target.value
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
             name="image"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Фото</FormLabel>
                 <FormControl>
                   <Input placeholder="https://playerphoto.jpg" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="tourneys"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Турниров</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="0"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(
-                        isNaN(+e.target.value) ? '' : +e.target.value
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="gold"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Золото</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="0"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(
-                        isNaN(+e.target.value) ? '' : +e.target.value
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="silver"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Серебро</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="0"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(
-                        isNaN(+e.target.value) ? '' : +e.target.value
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="silver"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Серебро</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="0"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(
-                        isNaN(+e.target.value) ? '' : +e.target.value
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="bronze"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Бронза</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="0"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(
-                        isNaN(+e.target.value) ? '' : +e.target.value
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="tourneys"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Турниров</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="0"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(
-                        isNaN(+e.target.value) ? '' : +e.target.value
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="matches"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Матчей</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="0"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(
-                        isNaN(+e.target.value) ? '' : +e.target.value
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="wins"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Побед</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="0"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(
-                        isNaN(+e.target.value) ? '' : +e.target.value
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="winsPerc"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Процент побед</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="0"
-                    {...field}
-                    onChange={(e) =>
-                      field.onChange(
-                        isNaN(+e.target.value) ? '' : +e.target.value
-                      )
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="lastT"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Последний турнир</FormLabel>
-                <FormControl>
-                  <Input placeholder="Случайный турнир" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

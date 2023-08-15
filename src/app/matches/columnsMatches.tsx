@@ -1,9 +1,9 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import Image from 'next/image';
 
-export interface Player {
+export interface Match {
+  place: string;
   name: string;
   nickname: string;
   rating: number;
@@ -15,34 +15,18 @@ export interface Player {
   matches: number;
   wins: number;
   winsPerc: number;
+  lastT: string;
 }
 
-export const columnsPlayers: ColumnDef<Player>[] = [
+export const columnsMatches: ColumnDef<Match>[] = [
   {
     accessorKey: 'place',
     header: '',
-    cell: ({ table, row }) => {
-      const sorted = table
-        .getRowModel()
-        .rows.sort((a, b) => b.original.rating - a.original.rating);
-
-      const item = sorted.find(
-        (i) => i.original.nickname === row.getValue('nickname')
-      );
-      let index;
-      
-      if (item) {
-        index = sorted.indexOf(item) + 1;
-      }
-      return <div>{index}</div>;
-    },
   },
   {
     accessorKey: 'name',
     header: 'Игрок',
-    cell: ({ row }) => <div>{row.getValue('name')}</div>,
   },
-
   {
     accessorKey: 'nickname',
     header: 'Ник',
@@ -58,15 +42,15 @@ export const columnsPlayers: ColumnDef<Player>[] = [
   },
   {
     accessorKey: 'gold',
-    header: () => <div className="text-2xl">🥇</div>,
+    header: '🥇',
   },
   {
     accessorKey: 'silver',
-    header: () => <div className="text-2xl">🥈</div>,
+    header: '🥈',
   },
   {
     accessorKey: 'bronze',
-    header: () => <div className="text-2xl">🥉</div>,
+    header: '🥇',
   },
   {
     accessorKey: 'matches',
@@ -79,5 +63,9 @@ export const columnsPlayers: ColumnDef<Player>[] = [
   {
     accessorKey: 'winsPerc',
     header: 'Процент побед',
+  },
+  {
+    accessorKey: 'lastT',
+    header: 'Последний турнир',
   },
 ];

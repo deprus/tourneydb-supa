@@ -75,7 +75,6 @@ export default function AddTourneyButton() {
           totalWins: values.totalWins,
         },
       ]);
-      console.log(data);
       return data;
     },
     onSuccess: () => {
@@ -118,7 +117,6 @@ export default function AddTourneyButton() {
     queryKey: ['players'],
     queryFn: async () => {
       let { data: Players, error } = await supabase.from('Players').select('*');
-      console.log(Players);
 
       if (error) {
         console.error(error);
@@ -221,7 +219,7 @@ export default function AddTourneyButton() {
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'w-[240px] pl-3 text-left font-normal',
+                          'w-full pl-3 text-left font-normal',
                           !field.value && 'text-muted-foreground'
                         )}
                       >

@@ -91,7 +91,6 @@ export const columnsTournaments: ColumnDef<Tournament>[] = [
       });
 
       const tournament = row.original;
-      console.log(tournament);
 
       return (
         <DropdownMenu>

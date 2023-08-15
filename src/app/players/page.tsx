@@ -13,7 +13,6 @@ export default function PlayersPage() {
     queryKey: ['players'],
     queryFn: async () => {
       let { data: Players, error } = await supabase.from('Players').select('*');
-      console.log(Players);
 
       if (error) {
         console.error(error);
