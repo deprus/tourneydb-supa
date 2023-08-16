@@ -12,7 +12,7 @@ export interface Player {
   gold: number;
   silver: number;
   bronze: number;
-  matches: number;
+  totalMatches: number;
   wins: number;
   winsPerc: number;
 }
@@ -30,7 +30,7 @@ export const columnsPlayers: ColumnDef<Player>[] = [
         (i) => i.original.nickname === row.getValue('nickname')
       );
       let index;
-      
+
       if (item) {
         index = sorted.indexOf(item) + 1;
       }
@@ -69,7 +69,7 @@ export const columnsPlayers: ColumnDef<Player>[] = [
     header: () => <div className="text-2xl">🥉</div>,
   },
   {
-    accessorKey: 'matches',
+    accessorKey: 'totalMatches',
     header: 'Матчей',
   },
   {
