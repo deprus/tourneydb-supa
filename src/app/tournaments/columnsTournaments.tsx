@@ -16,28 +16,29 @@ import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 
 export type Tournament = {
-  id: string;
+  id?: string;
+  created_at: Date;
   series: string;
-  tournament: string;
-  numPlayers: number;
+  name: string;
+  num_players: number;
   status: 'объявлен' | 'идет' | 'закончен' | 'регистрация';
-  ended: string;
-  champion: string;
+  end_date: Date;
+  champion_id: number;
   nickname: string;
-  totalWins: number;
+  champion_total_tourney_wins: number;
 };
 
 export const columnsTournaments: ColumnDef<Tournament>[] = [
   {
-    accessorKey: 'series',
+    accessorKey: 'series_name',
     header: 'Серия',
   },
   {
-    accessorKey: 'tournament',
+    accessorKey: 'tournament_name',
     header: 'Турнир',
   },
   {
-    accessorKey: 'numPlayers',
+    accessorKey: 'num_players',
     header: 'Участников',
   },
   {
@@ -45,11 +46,11 @@ export const columnsTournaments: ColumnDef<Tournament>[] = [
     header: 'Статус',
   },
   {
-    accessorKey: 'ended',
+    accessorKey: 'end_date',
     header: 'Финиш',
   },
   {
-    accessorKey: 'champion',
+    accessorKey: 'champion_id',
     header: 'Чемпион',
   },
   {
@@ -101,9 +102,9 @@ export const columnsTournaments: ColumnDef<Tournament>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => mutation.mutate(tournament.id)}>
+            {/* <DropdownMenuItem onClick={() => mutation.mutate(tournament.id)}>
               Удалить
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
             <DropdownMenuItem>Изменить</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

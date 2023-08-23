@@ -5,21 +5,20 @@ import { DataTable } from './data-table';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/utils/supabase';
 import { Skeleton } from '@/components/ui/skeleton';
-import AddPlayerButton from '@/components/AddPlayerButton';
 import SheetAddPlayer from '@/components/SheetAddPlayer';
 
 export default function PlayersPage() {
   const { data, isLoading: isGetting } = useQuery({
-    queryKey: ['players'],
+    queryKey: ['player'],
     queryFn: async () => {
-      let { data: Players, error } = await supabase.from('Players').select('*');
+      let { data: players, error } = await supabase.from('player').select('*');
 
       if (error) {
         console.error(error);
         throw new Error('Tournaments could not be loaded');
       }
 
-      return Players;
+      return players;
     },
   });
 

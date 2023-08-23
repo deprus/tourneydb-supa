@@ -116,7 +116,7 @@ export default function AddTourneyButton() {
   const { data, isLoading: isGetting } = useQuery({
     queryKey: ['players'],
     queryFn: async () => {
-      let { data: Players, error } = await supabase.from('Players').select('*');
+      let { data: Players, error } = await supabase.from('player').select('*');
 
       if (error) {
         console.error(error);
