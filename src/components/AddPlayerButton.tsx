@@ -35,6 +35,8 @@ import { cn } from '@/lib/utils';
 
 const FormSchema = z.object({
   name: z.string().min(1, 'Введите имя, фамилию'),
+  surname: z.string().min(1, 'Введите имя, фамилию'),
+  middle_name: z.string().min(1, 'Введите имя, фамилию'),
   nickname: z.string().min(1, 'Введите ник'),
   image: z.string(),
   gender: z.string(),
@@ -55,6 +57,8 @@ export default function AddPlayerButton() {
       const data = supabase.from('player').insert([
         {
           name: values.name,
+          surname: values.surname,
+          middle_name: values.middle_name,
           nickname: values.nickname,
           image: values.image,
           gender: values.gender,
@@ -92,6 +96,8 @@ export default function AddPlayerButton() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: '',
+      surname: '',
+      middle_name: '',
       nickname: '',
       image: '',
       gender: '',
@@ -120,6 +126,32 @@ export default function AddPlayerButton() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Имя</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="surname"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Фамилия</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="middle_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Отчество</FormLabel>
                 <FormControl>
                   <Input placeholder="" {...field} />
                 </FormControl>

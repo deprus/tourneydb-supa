@@ -19,6 +19,8 @@ import Link from 'next/link';
 export interface Player {
   id?: string;
   name: string;
+  middle_name: string;
+  surname: string;
   nickname: string;
   image: string;
   gender: string;
@@ -35,7 +37,17 @@ export interface Player {
 export const columnsPlayers: ColumnDef<Player>[] = [
   {
     accessorKey: 'name',
-    header: 'Игрок',
+    header: 'Имя',
+  },
+
+  {
+    accessorKey: 'surname',
+    header: 'Фамилия',
+  },
+
+  {
+    accessorKey: 'middle_name',
+    header: 'Отчество',
   },
 
   {
