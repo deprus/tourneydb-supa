@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button';
 
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import AddPlayer from './AddPlayer';
+import UpdatePlayer from './UpdatePlayer';
 
-export default function SheetUpdatePlayer() {
+export default function SheetUpdatePlayer({ data }: any) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -12,7 +12,7 @@ export default function SheetUpdatePlayer() {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <AddPlayer />
+        <UpdatePlayer data={data} />
       </DialogContent>
     </Dialog>
   );

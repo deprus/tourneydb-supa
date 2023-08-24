@@ -44,7 +44,10 @@ export const columnsPlayers: ColumnDef<Player>[] = [
   {
     accessorKey: 'name',
     header: 'Игрок',
-    cell: ({ row }) => <div>{row.getValue('name')}</div>,
+    cell: ({ row }: { row: any }) => {
+      console.log(row.original.surname);
+      return <div>{`${row.original.name} ${row.original.surname}`}</div>;
+    },
   },
 
   {
