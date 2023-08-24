@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import AddPlayer from './AddPlayer';
 
-export default function SheetAddPlayer() {
+export default function SheetUpdatePlayer() {
   return (
     <Dialog>
       <DialogTrigger asChild>

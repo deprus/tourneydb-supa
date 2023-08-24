@@ -50,7 +50,7 @@ const FormSchema = z.object({
   socials: z.string(),
 });
 
-export default function AddPlayerButton() {
+export default function AddPlayer() {
   const { toast } = useToast();
   const mutation = useMutation({
     mutationFn: (values: Player): any => {

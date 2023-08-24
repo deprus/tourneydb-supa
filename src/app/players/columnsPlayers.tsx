@@ -4,6 +4,7 @@ import { queryClient } from '@/components/Providers';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { supabase } from '@/utils/supabase';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -111,7 +112,7 @@ export const columnsPlayers: ColumnDef<Player>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      const mutation = useMutation({
+      const deletePlayer = useMutation({
         mutationFn: async (player: Player): Promise<any> => {
           const { error } = await supabase
             .from('player')
@@ -136,6 +137,48 @@ export const columnsPlayers: ColumnDef<Player>[] = [
         },
       });
 
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const updatePlayer = useMutation({
+        mutationFn: async (player: Player): Promise<any> => {
+          const { data, error } = await supabase
+            .from('player')
+            .update({
+              name: player.name,
+              surname: player.surname,
+              middle_name: player.middle_name,
+              nickname: player.nickname,
+              image: player.image,
+              gender: player.gender,
+              title: player.title,
+              residence: player.residence,
+              title_date: player.title_date,
+              join_date: player.join_date,
+              district: player.district,
+              mobile_number: player.mobile_number,
+              mail: player.mail,
+              socials: player.socials,
+            })
+            .eq('id', player.id)
+            .select();
+        },
+        onSuccess: () => {
+          toast({
+            title: `Игрок ${player.name} изменен`,
+            description: `${new Date().toLocaleString()}`,
+          });
+          queryClient.invalidateQueries({ queryKey: ['player'] });
+        },
+        onError: () => {
+          toast({
+            variant: 'destructive',
+            title: 'Не удалось изменить игрока.',
+            action: (
+              <ToastAction altText="Try again">Попробуйте еще раз</ToastAction>
+            ),
+          });
+        },
+      });
+
       const player = row.original;
 
       return (
@@ -147,10 +190,12 @@ export const columnsPlayers: ColumnDef<Player>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => mutation.mutate(player)}>
+            <DropdownMenuItem onClick={() => deletePlayer.mutate(player)}>
               Удалить
             </DropdownMenuItem>
-            <DropdownMenuItem>Изменить</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => updatePlayer.mutate(player)}>
+              Изменить
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
