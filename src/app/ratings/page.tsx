@@ -7,7 +7,6 @@ import { supabase } from '@/utils/supabase';
 import { Skeleton } from '@/components/ui/skeleton';
 import AddPlayer from '@/components/AddPlayer';
 import SheetAddPlayer from '@/components/SheetAddPlayer';
-import SheetUpdatePlayer from '@/components/SheetUpdatePlayer';
 
 export default function PlayersPage() {
   const { data, isLoading: isGetting } = useQuery({

@@ -34,9 +34,9 @@ import { Calendar } from './ui/calendar';
 import { cn } from '@/lib/utils';
 
 const FormSchema = z.object({
-  name: z.string().min(1, 'Введите имя, фамилию'),
-  surname: z.string().min(1, 'Введите имя, фамилию'),
-  middle_name: z.string().min(1, 'Введите имя, фамилию'),
+  name: z.string().min(1, 'Введите имя'),
+  surname: z.string().min(1, 'Введите фамилию'),
+  middle_name: z.string(),
   nickname: z.string().min(1, 'Введите ник'),
   image: z.string(),
   gender: z.string(),
@@ -51,10 +51,10 @@ const FormSchema = z.object({
 });
 
 export default function UpdatePlayer({ data }: any) {
-  console.log(data);
   const { toast } = useToast();
   const mutation = useMutation({
     mutationFn: (values: Player): any => {
+      console.log(values);
       const data = supabase
         .from('player')
         .update({
@@ -73,7 +73,7 @@ export default function UpdatePlayer({ data }: any) {
           mail: values.mail,
           socials: values.socials,
         })
-        .eq('id', values.id)
+        .eq('nickname', values.nickname)
         .select();
       return data;
     },
@@ -98,20 +98,20 @@ export default function UpdatePlayer({ data }: any) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: '',
-      surname: '',
-      middle_name: '',
-      nickname: '',
-      image: '',
-      gender: '',
-      title: '',
-      residence: '',
-      title_date: new Date(),
-      join_date: new Date(),
-      district: '',
-      mobile_number: '',
-      mail: '',
-      socials: '',
+      name: data.name,
+      surname: data.surname,
+      middle_name: data.middle_name,
+      nickname: data.nickname,
+      image: data.image,
+      gender: data.gender,
+      title: data.title,
+      residence: data.residence,
+      title_date: new Date(data.title_date),
+      join_date: new Date(data.join_date),
+      district: data.district,
+      mobile_number: data.mobile_number,
+      mail: data.mail,
+      socials: data.socials,
     },
   });
 
@@ -197,7 +197,7 @@ export default function UpdatePlayer({ data }: any) {
                 <Select onValueChange={field.onChange} defaultValue="Мужской">
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Выберите пол" />
+                      <SelectValue />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

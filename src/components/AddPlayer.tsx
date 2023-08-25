@@ -34,9 +34,9 @@ import { Calendar } from './ui/calendar';
 import { cn } from '@/lib/utils';
 
 const FormSchema = z.object({
-  name: z.string().min(1, 'Введите имя, фамилию'),
-  surname: z.string().min(1, 'Введите имя, фамилию'),
-  middle_name: z.string().min(1, 'Введите имя, фамилию'),
+  name: z.string().min(1, 'Введите имя'),
+  surname: z.string().min(1, 'Введите фамилию'),
+  middle_name: z.string(),
   nickname: z.string().min(1, 'Введите ник'),
   image: z.string(),
   gender: z.string(),
@@ -191,10 +191,10 @@ export default function AddPlayer() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Пол</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue="Мужской">
+                <Select onValueChange={field.onChange} defaultValue="">
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Выберите пол" />
+                      <SelectValue />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>

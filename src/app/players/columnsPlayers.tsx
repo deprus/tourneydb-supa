@@ -16,6 +16,7 @@ import { useMutation } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
+import UpdatePlayer from '@/components/UpdatePlayer';
 
 export interface Player {
   id?: string;
@@ -72,18 +73,18 @@ export const columnsPlayers: ColumnDef<Player>[] = [
   },
 
   {
-    accessorKey: 'title_date',
-    header: 'Дата звания',
+    accessorKey: 'join_date',
+    header: 'Вошел в клуб',
     cell: ({ row }: { row: any }) => {
       return <div>{row.getValue('join_date').slice(0, 10)}</div>;
     },
   },
 
   {
-    accessorKey: 'join_date',
-    header: 'Вошел в клуб',
+    accessorKey: 'title_date',
+    header: 'Дата звания',
     cell: ({ row }: { row: any }) => {
-      return <div>{row.getValue('join_date').slice(0, 10)}</div>;
+      return <div>{row.getValue('title_date').slice(0, 10)}</div>;
     },
   },
 
@@ -137,67 +138,30 @@ export const columnsPlayers: ColumnDef<Player>[] = [
         },
       });
 
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const updatePlayer = useMutation({
-        mutationFn: async (player: Player): Promise<any> => {
-          const { data, error } = await supabase
-            .from('player')
-            .update({
-              name: player.name,
-              surname: player.surname,
-              middle_name: player.middle_name,
-              nickname: player.nickname,
-              image: player.image,
-              gender: player.gender,
-              title: player.title,
-              residence: player.residence,
-              title_date: player.title_date,
-              join_date: player.join_date,
-              district: player.district,
-              mobile_number: player.mobile_number,
-              mail: player.mail,
-              socials: player.socials,
-            })
-            .eq('id', player.id)
-            .select();
-        },
-        onSuccess: () => {
-          toast({
-            title: `Игрок ${player.name} изменен`,
-            description: `${new Date().toLocaleString()}`,
-          });
-          queryClient.invalidateQueries({ queryKey: ['player'] });
-        },
-        onError: () => {
-          toast({
-            variant: 'destructive',
-            title: 'Не удалось изменить игрока.',
-            action: (
-              <ToastAction altText="Try again">Попробуйте еще раз</ToastAction>
-            ),
-          });
-        },
-      });
-
       const player = row.original;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => deletePlayer.mutate(player)}>
-              Удалить
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => updatePlayer.mutate(player)}>
-              Изменить
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Dialog>
+          <DialogContent>
+            <UpdatePlayer data={player} />
+          </DialogContent>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => deletePlayer.mutate(player)}>
+                Удалить
+              </DropdownMenuItem>
+              <DialogTrigger asChild>
+                <DropdownMenuItem>Изменить</DropdownMenuItem>
+              </DialogTrigger>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </Dialog>
       );
     },
   },
