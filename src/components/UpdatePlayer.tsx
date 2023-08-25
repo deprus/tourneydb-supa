@@ -50,7 +50,7 @@ const FormSchema = z.object({
   socials: z.string(),
 });
 
-export default function UpdatePlayer({ data }: any) {
+export default function UpdatePlayer({ data: playersData }: any) {
   const { toast } = useToast();
   const mutation = useMutation({
     mutationFn: (values: Player): any => {
@@ -73,7 +73,7 @@ export default function UpdatePlayer({ data }: any) {
           mail: values.mail,
           socials: values.socials,
         })
-        .eq('nickname', values.nickname)
+        .eq('id', playersData.id)
         .select();
       return data;
     },
@@ -95,23 +95,25 @@ export default function UpdatePlayer({ data }: any) {
     },
   });
 
+  console.log(playersData);
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: data.name,
-      surname: data.surname,
-      middle_name: data.middle_name,
-      nickname: data.nickname,
-      image: data.image,
-      gender: data.gender,
-      title: data.title,
-      residence: data.residence,
-      title_date: new Date(data.title_date),
-      join_date: new Date(data.join_date),
-      district: data.district,
-      mobile_number: data.mobile_number,
-      mail: data.mail,
-      socials: data.socials,
+      name: playersData.name,
+      surname: playersData.surname,
+      middle_name: playersData.middle_name,
+      nickname: playersData.nickname,
+      image: playersData.image,
+      gender: playersData.gender,
+      title: playersData.title,
+      residence: playersData.residence,
+      title_date: new Date(playersData.title_date),
+      join_date: new Date(playersData.join_date),
+      district: playersData.district,
+      mobile_number: playersData.mobile_number,
+      mail: playersData.mail,
+      socials: playersData.socials,
     },
   });
 
@@ -169,7 +171,7 @@ export default function UpdatePlayer({ data }: any) {
               <FormItem>
                 <FormLabel>Ник</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} disabled />
+                  <Input placeholder="" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
