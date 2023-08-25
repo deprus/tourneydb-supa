@@ -169,7 +169,7 @@ export default function UpdatePlayer({ data }: any) {
               <FormItem>
                 <FormLabel>Ник</FormLabel>
                 <FormControl>
-                  <Input placeholder="" {...field} />
+                  <Input placeholder="" {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>
