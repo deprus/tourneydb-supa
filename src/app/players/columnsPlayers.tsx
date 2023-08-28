@@ -40,6 +40,11 @@ export const columnsPlayers: ColumnDef<Player>[] = [
   {
     accessorKey: 'name',
     header: 'Имя',
+    cell: ({ row }) => (
+      <Link href={`/players/${row.getValue('nickname')}`}>
+        {row.getValue('name')}
+      </Link>
+    ),
   },
 
   {
@@ -55,6 +60,11 @@ export const columnsPlayers: ColumnDef<Player>[] = [
   {
     accessorKey: 'nickname',
     header: 'Ник',
+    cell: ({ row }) => (
+      <Link href={`/players/${row.getValue('nickname')}`}>
+        {row.getValue('nickname')}
+      </Link>
+    ),
   },
 
   {
