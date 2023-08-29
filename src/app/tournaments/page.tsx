@@ -9,9 +9,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function TournamentsPage() {
   const { data, isLoading: isGetting } = useQuery({
-    queryKey: ['tournaments'],
+    queryKey: ['tournament'],
     queryFn: async () => {
-      const { data, error } = await supabase.from('Tournaments').select('*');
+      const { data, error } = await supabase.from('tournament').select('*');
 
       if (error) {
         console.error(error);
