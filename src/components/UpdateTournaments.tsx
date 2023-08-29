@@ -55,7 +55,7 @@ export default function UpdateTournament({ data: tournamentsData }: any) {
     },
     onSuccess: () => {
       toast({
-        title: 'Игрок изменен',
+        title: 'Турнир изменен',
         description: `${new Date().toLocaleString()}`,
       });
       queryClient.invalidateQueries({ queryKey: ['tournament'] });
@@ -63,7 +63,7 @@ export default function UpdateTournament({ data: tournamentsData }: any) {
     onError: () => {
       toast({
         variant: 'destructive',
-        title: 'Не удалось изменить игрока.',
+        title: 'Не удалось изменить турнир.',
         action: (
           <ToastAction altText="Try again">Попробуйте еще раз</ToastAction>
         ),
