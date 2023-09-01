@@ -1,11 +1,11 @@
 'use client';
 
-import { columnsPlayers } from './columnsPlayers';
+import { columnsPlayers } from './columnsPlayer';
 import { DataTable } from './data-table';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/utils/supabase';
 import { Skeleton } from '@/components/ui/skeleton';
-import SheetAddPlayer from '@/components/SheetAddPlayer';
+import SheetAddPlayer from '@/app/players/SheetAddPlayer';
 
 export default function PlayersPage() {
   const { data, isLoading: isGetting } = useQuery({

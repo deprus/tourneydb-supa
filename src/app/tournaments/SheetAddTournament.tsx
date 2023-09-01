@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 
-import AddTourneyButton from './AddTourneyButton';
+import AddTourneyButton from './AddTournament';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 export default function SheetAddTourney() {

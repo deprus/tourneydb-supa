@@ -1,25 +1,28 @@
 'use client';
 
-import { columnsPlayers } from './columnsRatings';
+import { columnsResult } from './columnsResult';
 import { DataTable } from './data-table';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/utils/supabase';
 import { Skeleton } from '@/components/ui/skeleton';
-import AddPlayer from '@/app/players/AddPlayer';
-import SheetAddPlayer from '@/app/players/SheetAddPlayer';
+import SheetAddResult from '@/app/results/SheetAddResult';
 
-export default function PlayersPage() {
+export default function ResultsPage() {
   const { data, isLoading: isGetting } = useQuery({
-    queryKey: ['player'],
+    queryKey: ['result'],
     queryFn: async () => {
-      let { data: players, error } = await supabase.from('player').select('*');
+      const { data, error } = await supabase
+        .from('result')
+        .select(
+          `id, result_place, player(player_nickname), tournament(tournament_name)`
+        );
 
       if (error) {
         console.error(error);
-        throw new Error('Tournaments could not be loaded');
+        throw new Error('Results could not be loaded');
       }
-
-      return players;
+      console.log(data);
+      return data;
     },
   });
 
@@ -37,11 +40,11 @@ export default function PlayersPage() {
     );
 
   const dataArray = data || [];
-  console.log(dataArray);
 
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columnsPlayers} data={dataArray} />
+      <SheetAddResult />
+      <DataTable columns={columnsResult} data={dataArray} />
     </div>
   );
 }

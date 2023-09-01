@@ -2,8 +2,12 @@
 
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
+import { CalendarIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Form,
   FormControl,
@@ -12,50 +16,53 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 import { Input } from '@/components/ui/input';
-import { format } from 'date-fns';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { supabase } from '@/utils/supabase';
-import { useToast } from './ui/use-toast';
+import { useToast } from '../../components/ui/use-toast';
 import { ToastAction } from '@radix-ui/react-toast';
-import { queryClient } from './Providers';
+import { queryClient } from '../../components/Providers';
 
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { CalendarIcon } from 'lucide-react';
-import { Calendar } from './ui/calendar';
-import { cn } from '@/lib/utils';
-import { Tournament } from '@/app/tournaments/columnsTournaments';
+interface Tournament {
+  tournament_name: string;
+  tournament_series: string;
+  tournament_num_players: number;
+  tournament_end_date: Date;
+  tournament_match_length: number;
+}
 
 const FormSchema = z.object({
-  name: z.string().min(1, 'Введите название турнира'),
-  series: z.string().min(1, 'Введите название серии'),
-  num_players: z.number().min(1, 'Введите количество участников'),
-  end_date: z.date(),
-  match_length: z.number().min(1, 'Введите длину матчей'),
+  tournament_name: z.string().min(1, 'Введите название турнира'),
+  tournament_series: z.string().min(1, 'Введите название серии'),
+  tournament_num_players: z.number().min(1, 'Введите количество участников'),
+  tournament_end_date: z.date(),
+  tournament_match_length: z.number().min(1, 'Введите длину матчей'),
 });
 
-export default function UpdateTournament({ data: tournamentsData }: any) {
+export default function AddTourneyButton() {
   const { toast } = useToast();
   const mutation = useMutation({
     mutationFn: (values: Tournament): any => {
-      console.log(values);
-      const data = supabase
-        .from('tournament')
-        .update({
-          name: values.name,
-          series: values.series,
-          num_players: values.num_players,
-          end_date: values.end_date,
-          match_length: values.match_length,
-        })
-        .eq('id', tournamentsData.id)
-        .select();
+      const data = supabase.from('tournament').insert([
+        {
+          tournament_name: values.tournament_name,
+          tournament_series: values.tournament_series,
+          tournament_num_players: values.tournament_num_players,
+          tournament_end_date: values.tournament_end_date,
+          tournament_match_length: values.tournament_match_length,
+        },
+      ]);
       return data;
     },
     onSuccess: () => {
       toast({
-        title: 'Турнир изменен',
+        title: 'Турнир добавлен',
         description: `${new Date().toLocaleString()}`,
       });
       queryClient.invalidateQueries({ queryKey: ['tournament'] });
@@ -63,7 +70,7 @@ export default function UpdateTournament({ data: tournamentsData }: any) {
     onError: () => {
       toast({
         variant: 'destructive',
-        title: 'Не удалось изменить турнир.',
+        title: 'Не удалось добавить турнир.',
         action: (
           <ToastAction altText="Try again">Попробуйте еще раз</ToastAction>
         ),
@@ -71,16 +78,14 @@ export default function UpdateTournament({ data: tournamentsData }: any) {
     },
   });
 
-  console.log(tournamentsData);
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: tournamentsData.name,
-      series: tournamentsData.series,
-      num_players: tournamentsData.num_players,
-      end_date: new Date(tournamentsData.end_date),
-      match_length: tournamentsData.match_length,
+      tournament_name: '',
+      tournament_series: '',
+      tournament_num_players: 0,
+      tournament_end_date: new Date(),
+      tournament_match_length: 0,
     },
   });
 
@@ -97,7 +102,7 @@ export default function UpdateTournament({ data: tournamentsData }: any) {
         >
           <FormField
             control={form.control}
-            name="series"
+            name="tournament_series"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Серия</FormLabel>
@@ -110,7 +115,7 @@ export default function UpdateTournament({ data: tournamentsData }: any) {
           />
           <FormField
             control={form.control}
-            name="name"
+            name="tournament_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Турнир</FormLabel>
@@ -123,7 +128,7 @@ export default function UpdateTournament({ data: tournamentsData }: any) {
           />
           <FormField
             control={form.control}
-            name="num_players"
+            name="tournament_num_players"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Участников</FormLabel>
@@ -144,7 +149,7 @@ export default function UpdateTournament({ data: tournamentsData }: any) {
           />
           <FormField
             control={form.control}
-            name="end_date"
+            name="tournament_end_date"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Финиш</FormLabel>
@@ -182,7 +187,7 @@ export default function UpdateTournament({ data: tournamentsData }: any) {
           />
           <FormField
             control={form.control}
-            name="match_length"
+            name="tournament_match_length"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Длина матчей</FormLabel>

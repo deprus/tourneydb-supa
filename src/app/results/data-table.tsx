@@ -15,19 +15,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Player } from './columnsPlayer';
 
-interface DataTableProps<TData extends Player, TValue> {
+interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData extends Player, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  // data.sort((a, b) => b.rating - a.rating);
-
   const table = useReactTable({
     data,
     columns,

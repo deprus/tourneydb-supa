@@ -4,8 +4,8 @@ import { DataTable } from './data-table';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/utils/supabase';
 import { Skeleton } from '@/components/ui/skeleton';
-import SheetAddPlayer from '@/components/SheetAddPlayer';
-import { columnsMatches } from './columnsMatches';
+import SheetAddPlayer from '@/app/players/SheetAddPlayer';
+import { columnsMatches } from './columnsMatch';
 
 export default function MatchesPage() {
   const { data, isLoading: isGetting } = useQuery({

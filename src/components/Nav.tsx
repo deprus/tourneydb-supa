@@ -24,6 +24,7 @@ export default function Nav({ isClosed, setIsClosed }: NavProps) {
         <NavLink setIsClosed={setIsClosed} href="/players" title="Players" />
         <NavLink setIsClosed={setIsClosed} href="/ratings" title="Ratings" />
         <NavLink setIsClosed={setIsClosed} href="/matches" title="Matches" />
+        <NavLink setIsClosed={setIsClosed} href="/results" title="Results" />
       </ul>
     </div>
   );

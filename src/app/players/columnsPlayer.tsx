@@ -16,105 +16,105 @@ import { useMutation } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
-import UpdatePlayer from '@/components/UpdatePlayer';
+import UpdatePlayer from './UpdatePlayer';
 
 export interface Player {
   id?: string;
-  name: string;
-  middle_name: string;
-  surname: string;
-  nickname: string;
-  image: string;
-  gender: string;
-  title: string;
-  residence: string;
-  title_date: Date;
-  join_date: Date;
-  district: string;
-  mobile_number: string;
-  mail: string;
-  socials: string;
+  player_name: string;
+  player_middle_name: string;
+  player_surname: string;
+  player_nickname: string;
+  player_image: string;
+  player_gender: string;
+  player_title: string;
+  player_residence: string;
+  player_title_date: Date;
+  player_join_date: Date;
+  player_district: string;
+  player_mobile_number: string;
+  player_mail: string;
+  player_socials: string;
 }
 
 export const columnsPlayers: ColumnDef<Player>[] = [
   {
-    accessorKey: 'name',
+    accessorKey: 'player_name',
     header: 'Имя',
     cell: ({ row }) => (
-      <Link href={`/players/${row.getValue('nickname')}`}>
-        {row.getValue('name')}
+      <Link href={`/players/${row.getValue('player_nickname')}`}>
+        {row.getValue('player_name')}
       </Link>
     ),
   },
 
   {
-    accessorKey: 'surname',
+    accessorKey: 'player_surname',
     header: 'Фамилия',
   },
 
   {
-    accessorKey: 'middle_name',
+    accessorKey: 'player_middle_name',
     header: 'Отчество',
   },
 
   {
-    accessorKey: 'nickname',
+    accessorKey: 'player_nickname',
     header: 'Ник',
     cell: ({ row }) => (
-      <Link href={`/players/${row.getValue('nickname')}`}>
-        {row.getValue('nickname')}
+      <Link href={`/players/${row.getValue('player_nickname')}`}>
+        {row.getValue('player_nickname')}
       </Link>
     ),
   },
 
   {
-    accessorKey: 'gender',
+    accessorKey: 'player_gender',
     header: 'Пол',
   },
 
   {
-    accessorKey: 'title',
+    accessorKey: 'player_title',
     header: 'Звание',
   },
 
   {
-    accessorKey: 'residence',
+    accessorKey: 'player_residence',
     header: 'Место жительства',
   },
 
   {
-    accessorKey: 'join_date',
+    accessorKey: 'player_join_date',
     header: 'Вошел в клуб',
     cell: ({ row }: { row: any }) => {
-      return <div>{row.getValue('join_date').slice(0, 10)}</div>;
+      return <div>{row.getValue('player_join_date').slice(0, 10)}</div>;
     },
   },
 
   {
-    accessorKey: 'title_date',
+    accessorKey: 'player_title_date',
     header: 'Дата звания',
     cell: ({ row }: { row: any }) => {
-      return <div>{row.getValue('title_date').slice(0, 10)}</div>;
+      return <div>{row.getValue('player_title_date').slice(0, 10)}</div>;
     },
   },
 
   {
-    accessorKey: 'district',
+    accessorKey: 'player_district',
     header: 'Округ',
   },
 
   {
-    accessorKey: 'mobile_number',
+    accessorKey: 'player_mobile_number',
     header: 'Моб номер',
   },
 
   {
-    accessorKey: 'mail',
+    accessorKey: 'player_mail',
     header: 'Почта',
   },
 
   {
-    accessorKey: 'socials',
+    accessorKey: 'player_socials',
     header: 'Соц сети',
   },
 
@@ -132,7 +132,7 @@ export const columnsPlayers: ColumnDef<Player>[] = [
         },
         onSuccess: () => {
           toast({
-            title: `Игрок ${player.name} удален`,
+            title: `Игрок ${player.player_name} удален`,
             description: `${new Date().toLocaleString()}`,
           });
           queryClient.invalidateQueries({ queryKey: ['player'] });

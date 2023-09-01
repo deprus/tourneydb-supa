@@ -17,37 +17,41 @@ import { Input } from '@/components/ui/input';
 import { format } from 'date-fns';
 import { useMutation } from '@tanstack/react-query';
 import { supabase } from '@/utils/supabase';
-import { useToast } from './ui/use-toast';
+import { useToast } from '../../components/ui/use-toast';
 import { ToastAction } from '@radix-ui/react-toast';
-import { queryClient } from './Providers';
-import { Player } from '@/app/players/columnsPlayers';
+import { queryClient } from '../../components/Providers';
+import { Player } from '@/app/players/columnsPlayer';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from './ui/select';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+} from '../../components/ui/select';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '../../components/ui/popover';
 import { CalendarIcon } from 'lucide-react';
-import { Calendar } from './ui/calendar';
+import { Calendar } from '../../components/ui/calendar';
 import { cn } from '@/lib/utils';
 
 const FormSchema = z.object({
-  name: z.string().min(1, 'Введите имя'),
-  surname: z.string().min(1, 'Введите фамилию'),
-  middle_name: z.string(),
-  nickname: z.string().min(1, 'Введите ник'),
-  image: z.string(),
-  gender: z.string(),
-  title: z.string(),
-  residence: z.string(),
-  title_date: z.date(),
-  join_date: z.date(),
-  district: z.string(),
-  mobile_number: z.string(),
-  mail: z.string(),
-  socials: z.string(),
+  player_name: z.string().min(1, 'Введите имя'),
+  player_surname: z.string().min(1, 'Введите фамилию'),
+  player_middle_name: z.string(),
+  player_nickname: z.string().min(1, 'Введите ник'),
+  player_image: z.string(),
+  player_gender: z.string(),
+  player_title: z.string(),
+  player_residence: z.string(),
+  player_title_date: z.date(),
+  player_join_date: z.date(),
+  player_district: z.string(),
+  player_mobile_number: z.string(),
+  player_mail: z.string(),
+  player_socials: z.string(),
 });
 
 export default function AddPlayer() {
@@ -56,20 +60,20 @@ export default function AddPlayer() {
     mutationFn: (values: Player): any => {
       const data = supabase.from('player').insert([
         {
-          name: values.name,
-          surname: values.surname,
-          middle_name: values.middle_name,
-          nickname: values.nickname,
-          image: values.image,
-          gender: values.gender,
-          title: values.title,
-          residence: values.residence,
-          title_date: values.title_date,
-          join_date: values.join_date,
-          district: values.district,
-          mobile_number: values.mobile_number,
-          mail: values.mail,
-          socials: values.socials,
+          player_name: values.player_name,
+          player_surname: values.player_surname,
+          player_middle_name: values.player_middle_name,
+          player_nickname: values.player_nickname,
+          player_image: values.player_image,
+          player_gender: values.player_gender,
+          player_title: values.player_title,
+          player_residence: values.player_residence,
+          player_title_date: values.player_title_date,
+          player_join_date: values.player_join_date,
+          player_district: values.player_district,
+          player_mobile_number: values.player_mobile_number,
+          player_mail: values.player_mail,
+          player_socials: values.player_socials,
         },
       ]);
       return data;
@@ -95,20 +99,20 @@ export default function AddPlayer() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: '',
-      surname: '',
-      middle_name: '',
-      nickname: '',
-      image: '',
-      gender: '',
-      title: '',
-      residence: '',
-      title_date: new Date(),
-      join_date: new Date(),
-      district: '',
-      mobile_number: '',
-      mail: '',
-      socials: '',
+      player_name: '',
+      player_surname: '',
+      player_middle_name: '',
+      player_nickname: '',
+      player_image: '',
+      player_gender: '',
+      player_title: '',
+      player_residence: '',
+      player_title_date: new Date(),
+      player_join_date: new Date(),
+      player_district: '',
+      player_mobile_number: '',
+      player_mail: '',
+      player_socials: '',
     },
   });
 
@@ -122,7 +126,7 @@ export default function AddPlayer() {
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-3">
           <FormField
             control={form.control}
-            name="name"
+            name="player_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Имя</FormLabel>
@@ -135,7 +139,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="surname"
+            name="player_surname"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Фамилия</FormLabel>
@@ -148,7 +152,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="middle_name"
+            name="player_middle_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Отчество</FormLabel>
@@ -161,7 +165,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="nickname"
+            name="player_nickname"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Ник</FormLabel>
@@ -174,7 +178,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="image"
+            name="player_image"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Фото</FormLabel>
@@ -187,7 +191,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="gender"
+            name="player_gender"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Пол</FormLabel>
@@ -208,7 +212,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="title"
+            name="player_title"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Звание</FormLabel>
@@ -221,7 +225,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="residence"
+            name="player_residence"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Место жительства</FormLabel>
@@ -234,7 +238,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="join_date"
+            name="player_join_date"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Вошел в клуб</FormLabel>
@@ -272,7 +276,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="title_date"
+            name="player_title_date"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Присвоено звание</FormLabel>
@@ -310,7 +314,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="district"
+            name="player_district"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Округ</FormLabel>
@@ -323,7 +327,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="mobile_number"
+            name="player_mobile_number"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Номер телефона</FormLabel>
@@ -336,7 +340,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="mail"
+            name="player_mail"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Почта</FormLabel>
@@ -349,7 +353,7 @@ export default function AddPlayer() {
           />
           <FormField
             control={form.control}
-            name="socials"
+            name="player_socials"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Соц сети</FormLabel>

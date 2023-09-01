@@ -1,9 +1,9 @@
 'use client';
 
-import { columnsTournaments } from './columnsTournaments';
+import { columnsTournaments } from './columnsTournament';
 import { DataTable } from './data-table';
 import { useQuery } from '@tanstack/react-query';
-import SheetAddTourney from '@/components/SheetAddTourney';
+import SheetAddTourney from '@/app/tournaments/SheetAddTournament';
 import { supabase } from '@/utils/supabase';
 import { Skeleton } from '@/components/ui/skeleton';
 

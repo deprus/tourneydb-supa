@@ -1,7 +1,7 @@
 'use client';
 
 import { queryClient } from '@/components/Providers';
-import UpdateTournament from '@/components/UpdateTournaments';
+import UpdateTournament from '@/app/tournaments/UpdateTournament';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import {
@@ -20,32 +20,32 @@ import { MoreHorizontal } from 'lucide-react';
 
 export type Tournament = {
   id?: string;
-  series: string;
-  name: string;
-  num_players: number;
-  end_date: Date;
-  match_length: number;
+  tournament_series: string;
+  tournament_name: string;
+  tournament_num_players: number;
+  tournament_end_date: Date;
+  tournament_match_length: number;
 };
 
 export const columnsTournaments: ColumnDef<Tournament>[] = [
   {
-    accessorKey: 'series',
+    accessorKey: 'tournament_series',
     header: 'Серия',
   },
   {
-    accessorKey: 'name',
+    accessorKey: 'tournament_name',
     header: 'Турнир',
   },
   {
-    accessorKey: 'num_players',
+    accessorKey: 'tournament_num_players',
     header: 'Участников',
   },
   {
-    accessorKey: 'end_date',
+    accessorKey: 'tournament_end_date',
     header: 'Финиш',
   },
   {
-    accessorKey: 'match_length',
+    accessorKey: 'tournament_match_length',
     header: 'Длина матчей',
   },
 
@@ -63,7 +63,7 @@ export const columnsTournaments: ColumnDef<Tournament>[] = [
         },
         onSuccess: () => {
           toast({
-            title: `Турнир ${tournament.name} удален`,
+            title: `Турнир ${tournament.tournament_name} удален`,
             description: `${new Date().toLocaleString()}`,
           });
           queryClient.invalidateQueries({ queryKey: ['tournament'] });

@@ -2,12 +2,8 @@
 
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
-import { CalendarIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
 import {
   Form,
   FormControl,
@@ -16,53 +12,54 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+
+import { Input } from '@/components/ui/input';
+import { format } from 'date-fns';
+import { useMutation } from '@tanstack/react-query';
+import { supabase } from '@/utils/supabase';
+import { useToast } from '../../components/ui/use-toast';
+import { ToastAction } from '@radix-ui/react-toast';
+import { queryClient } from '../../components/Providers';
+
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-
-import { Input } from '@/components/ui/input';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { supabase } from '@/utils/supabase';
-import { useToast } from './ui/use-toast';
-import { ToastAction } from '@radix-ui/react-toast';
-import { queryClient } from './Providers';
-
-interface Tournament {
-  name: string;
-  series: string;
-  num_players: number;
-  end_date: Date;
-  match_length: number;
-}
+} from '../../components/ui/popover';
+import { CalendarIcon } from 'lucide-react';
+import { Calendar } from '../../components/ui/calendar';
+import { cn } from '@/lib/utils';
+import { Tournament } from '@/app/tournaments/columnsTournament';
 
 const FormSchema = z.object({
-  name: z.string().min(1, 'Введите название турнира'),
-  series: z.string().min(1, 'Введите название серии'),
-  num_players: z.number().min(1, 'Введите количество участников'),
-  end_date: z.date(),
-  match_length: z.number().min(1, 'Введите длину матчей'),
+  tournament_name: z.string().min(1, 'Введите название турнира'),
+  tournament_series: z.string().min(1, 'Введите название серии'),
+  tournament_num_players: z.number().min(1, 'Введите количество участников'),
+  tournament_end_date: z.date(),
+  tournament_match_length: z.number().min(1, 'Введите длину матчей'),
 });
 
-export default function AddTourneyButton() {
+export default function UpdateTournament({ data: tournamentsData }: any) {
   const { toast } = useToast();
   const mutation = useMutation({
     mutationFn: (values: Tournament): any => {
-      const data = supabase.from('tournament').insert([
-        {
-          name: values.name,
-          series: values.series,
-          num_players: values.num_players,
-          end_date: values.end_date,
-          match_length: values.match_length,
-        },
-      ]);
+      console.log(values);
+      const data = supabase
+        .from('tournament')
+        .update({
+          tournament_name: values.tournament_name,
+          tournament_series: values.tournament_series,
+          tournament_num_players: values.tournament_num_players,
+          tournament_end_date: values.tournament_end_date,
+          tournament_match_length: values.tournament_match_length,
+        })
+        .eq('id', tournamentsData.id)
+        .select();
       return data;
     },
     onSuccess: () => {
       toast({
-        title: 'Турнир добавлен',
+        title: 'Турнир изменен',
         description: `${new Date().toLocaleString()}`,
       });
       queryClient.invalidateQueries({ queryKey: ['tournament'] });
@@ -70,7 +67,7 @@ export default function AddTourneyButton() {
     onError: () => {
       toast({
         variant: 'destructive',
-        title: 'Не удалось добавить турнир.',
+        title: 'Не удалось изменить турнир.',
         action: (
           <ToastAction altText="Try again">Попробуйте еще раз</ToastAction>
         ),
@@ -78,34 +75,22 @@ export default function AddTourneyButton() {
     },
   });
 
+  console.log(tournamentsData);
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: '',
-      series: '',
-      num_players: 0,
-      end_date: new Date(),
-      match_length: 0,
+      tournament_name: tournamentsData.tournament_name,
+      tournament_series: tournamentsData.tournament_series,
+      tournament_num_players: tournamentsData.tournament_num_players,
+      tournament_end_date: new Date(tournamentsData.tournament_end_date),
+      tournament_match_length: tournamentsData.tournament_match_length,
     },
   });
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     mutation.mutate(values);
   }
-
-  const { data, isLoading: isGetting } = useQuery({
-    queryKey: ['players'],
-    queryFn: async () => {
-      let { data: Players, error } = await supabase.from('player').select('*');
-
-      if (error) {
-        console.error(error);
-        throw new Error('Tournaments could not be loaded');
-      }
-
-      return Players;
-    },
-  });
 
   return (
     <>
@@ -116,7 +101,7 @@ export default function AddTourneyButton() {
         >
           <FormField
             control={form.control}
-            name="series"
+            name="tournament_series"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Серия</FormLabel>
@@ -129,7 +114,7 @@ export default function AddTourneyButton() {
           />
           <FormField
             control={form.control}
-            name="name"
+            name="tournament_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Турнир</FormLabel>
@@ -142,7 +127,7 @@ export default function AddTourneyButton() {
           />
           <FormField
             control={form.control}
-            name="num_players"
+            name="tournament_num_players"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Участников</FormLabel>
@@ -163,7 +148,7 @@ export default function AddTourneyButton() {
           />
           <FormField
             control={form.control}
-            name="end_date"
+            name="tournament_end_date"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Финиш</FormLabel>
@@ -201,7 +186,7 @@ export default function AddTourneyButton() {
           />
           <FormField
             control={form.control}
-            name="match_length"
+            name="tournament_match_length"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Длина матчей</FormLabel>

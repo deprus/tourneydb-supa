@@ -5,20 +5,20 @@ import Image from 'next/image';
 
 export interface Player {
   id?: string;
-  name: string;
-  middle_name: string;
-  surname: string;
-  nickname: string;
-  image: string;
-  gender: string;
-  title: string;
-  residence: string;
-  title_date: Date;
-  join_date: Date;
-  district: string;
-  mobile_number: string;
-  mail: string;
-  socials: string;
+  player_name: string;
+  player_middle_name: string;
+  player_surname: string;
+  player_nickname: string;
+  player_image: string;
+  player_gender: string;
+  player_title: string;
+  player_residence: string;
+  player_title_date: Date;
+  player_join_date: Date;
+  player_district: string;
+  player_mobile_number: string;
+  player_mail: string;
+  player_socials: string;
 }
 
 export const columnsPlayers: ColumnDef<Player>[] = [
@@ -45,46 +45,47 @@ export const columnsPlayers: ColumnDef<Player>[] = [
     accessorKey: 'name',
     header: 'Игрок',
     cell: ({ row }: { row: any }) => {
-      console.log(row.original.surname);
-      return <div>{`${row.original.name} ${row.original.surname}`}</div>;
+      return (
+        <div>{`${row.original.player_name} ${row.original.player_surname}`}</div>
+      );
     },
   },
 
   {
-    accessorKey: 'nickname',
+    accessorKey: 'player_nickname',
     header: 'Ник',
   },
   {
-    accessorKey: 'rating',
+    accessorKey: 'player_rating',
     header: 'Рейтинг',
   },
 
   {
-    accessorKey: 'tourneys',
+    accessorKey: 'player_tourneys',
     header: 'Турниров',
   },
   {
-    accessorKey: 'gold',
+    accessorKey: 'player_gold',
     header: () => <div className="text-2xl">🥇</div>,
   },
   {
-    accessorKey: 'silver',
+    accessorKey: 'player_silver',
     header: () => <div className="text-2xl">🥈</div>,
   },
   {
-    accessorKey: 'bronze',
+    accessorKey: 'player_bronze',
     header: () => <div className="text-2xl">🥉</div>,
   },
   {
-    accessorKey: 'matches',
+    accessorKey: 'player_matches',
     header: 'Матчей',
   },
   {
-    accessorKey: 'wins',
+    accessorKey: 'player_player_wins',
     header: 'Побед',
   },
   {
-    accessorKey: 'winsPerc',
+    accessorKey: 'player_winsPerc',
     header: 'Процент побед',
   },
 ];
